@@ -43,6 +43,11 @@ class CarController extends Controller
     {
         $validated = $request->validated();
 
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('photos', 'public');
+            $validated['image'] = $imagePath;
+        }
+
         Car::create($validated);
 
         return redirect()->route('cars.index')->with('success', 'მანქანა წარმატებით დაემატა!');
@@ -71,16 +76,27 @@ class CarController extends Controller
     {
         $validated = $request->validated();
 
+        if ($request->hasFile('image')) {
+            if ($car->image && file_exists(storage_path('app/public/' . $car->image))) {
+                unlink(storage_path('app/public/' . $car->image));
+            }
+            $validated['image'] = $request->file('image')->store('photos', 'public');
+        }
+
         $car->update($validated);
 
         return redirect()->route('cars.show', $car)->with('success', 'განცხადება განახლდა!');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Car $car): RedirectResponse
     {
+        if ($car->image && file_exists(storage_path('app/public/' . $car->image))) {
+            unlink(storage_path('app/public/' . $car->image));
+        }
         $car->delete();
         return redirect()->route('cars.index')->with('success', 'განცხადება წაიშალა!');
     }

@@ -14,9 +14,10 @@
         </div>
     @endif
 
-    <form action="{{ route('cars.update', $car) }}" method="POST" class="bg-white p-6 rounded-lg shadow-md">
+    <form action="{{ route('cars.update', $car) }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-md">
         @csrf
-        @method('PUT') <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        @method('PUT') 
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
                 <label for="make" class="block text-sm font-medium text-gray-700">მარკა</label>
                 <input type="text" name="make" id="make" value="{{ old('make', $car->make) }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
@@ -39,9 +40,14 @@
         </div>
 
         <div class="mt-6">
-            <label for="image_url" class="block text-sm font-medium text-gray-700">სურათის ლინკი (URL)</label>
-            <input type="url" name="image_url" id="image_url" value="{{ old('image_url', $car->image_url) }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="https://example.com/image.jpg">
+            <label for="image" class="block text-sm font-medium text-gray-700">სურათი</label>
+            <input type="file" name="image" id="image" accept="image/*"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            @if($car->image)
+                <img src="{{ asset('storage/' . $car->image) }}" alt="{{ $car->make }} {{ $car->model }}" class="mt-2 w-64 h-auto object-cover" style="max-height: 300px;">
+            @endif
         </div>
+
 
         <div class="mt-6">
             <label for="description" class="block text-sm font-medium text-gray-700">აღწერა</label>

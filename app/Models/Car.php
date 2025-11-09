@@ -20,6 +20,6 @@ class Car extends Model
         'year',
         'price',
         'description',
-        'image_url',
+        'image',
     ];
 }

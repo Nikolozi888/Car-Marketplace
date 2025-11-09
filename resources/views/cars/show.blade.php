@@ -2,7 +2,9 @@
 
 @section('content')
     <div class="bg-white rounded-lg shadow-md overflow-hidden">
-        <img src="{{ $car->image_url ?: 'https://via.placeholder.com/1200x600.png?text=No+Image' }}" alt="{{ $car->make }} {{ $car->model }}" class="w-full h-auto object-cover" style="max-height: 500px;">
+        <img src="{{ asset('storage/' . $car->image) ?: 'https://via.placeholder.com/1200x600.png?text=No+Image' }}" 
+            alt="{{ $car->make }} {{ $car->model }}" 
+            class="w-full h-auto object-cover" style="max-height: 500px;">
         
         <div class="p-6">
             <h1 class="text-4xl font-bold text-blue-800 mb-2">{{ $car->make }} {{ $car->model }}</h1>

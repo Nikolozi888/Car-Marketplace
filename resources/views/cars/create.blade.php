@@ -14,7 +14,7 @@
         </div>
     @endif
 
-    <form action="{{ route('cars.store') }}" method="POST" class="bg-white p-6 rounded-lg shadow-md">
+    <form action="{{ route('cars.store') }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-md">
         @csrf
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -39,8 +39,9 @@
         </div>
 
         <div class="mt-6">
-            <label for="image_url" class="block text-sm font-medium text-gray-700">სურათის ლინკი (URL)</label>
-            <input type="url" name="image_url" id="image_url" value="{{ old('image_url') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="https://example.com/image.jpg">
+            <label for="image" class="block text-sm font-medium text-gray-700">სურათი</label>
+            <input type="file" name="image" id="image" accept="image/*"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
         </div>
 
         <div class="mt-6">

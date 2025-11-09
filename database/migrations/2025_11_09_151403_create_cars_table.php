@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('year');
             $table->decimal('price', 10, 2);
             $table->text('description')->nullable();
-            $table->string('image_url')->nullable();
             $table->timestamps();
         });
     }

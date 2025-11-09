@@ -27,7 +27,7 @@ class CarAddRequest extends FormRequest
             'year' => 'required|integer|min:1900|max:' . (date('Y') + 1),
             'price' => 'required|numeric|min:0',
             'description' => 'nullable|string',
-            'image_url' => 'nullable|url',
+            'image' => 'nullable|image|max:2048',
         ];
     }
 
