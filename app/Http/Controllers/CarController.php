@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CarAddRequest;
+use App\Http\Requests\CarUpdateRequest;
 use App\Models\Car;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -37,16 +39,9 @@ class CarController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(CarAddRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'make' => 'required|string|max:255',
-            'model' => 'required|string|max:255',
-            'year' => 'required|integer|min:1900|max:' . (date('Y') + 1),
-            'price' => 'required|numeric|min:0',
-            'description' => 'nullable|string',
-            'image_url' => 'nullable|url',
-        ]);
+        $validated = $request->validated();
 
         Car::create($validated);
 
@@ -72,16 +67,9 @@ class CarController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Car $car): RedirectResponse
+    public function update(CarUpdateRequest $request, Car $car): RedirectResponse
     {
-        $validated = $request->validate([
-            'make' => 'required|string|max:255',
-            'model' => 'required|string|max:255',
-            'year' => 'required|integer|min:1900|max:' . (date('Y') + 1),
-            'price' => 'required|numeric|min:0',
-            'description' => 'nullable|string',
-            'image_url' => 'nullable|url',
-        ]);
+        $validated = $request->validated();
 
         $car->update($validated);
 
