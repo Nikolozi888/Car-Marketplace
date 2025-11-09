@@ -1,7 +1,23 @@
 @extends('layout')
 
 @section('content')
-    
+    <form action="{{ route('cars.index') }}" method="GET" class="mb-6">
+        <div class="flex items-center max-w-lg mx-auto bg-white rounded-full shadow-md">
+            <input 
+                type="text" 
+                name="search" 
+                value="{{ request('search') }}"
+                placeholder="ძიება მარკის ან მოდელის მიხედვით..." 
+                class="w-full px-6 py-3 rounded-full border-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+            <button 
+                type="submit" 
+                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full -ml-12"
+            >
+                ძიება
+            </button>
+        </div>
+    </form>
     
     <h1 class="text-3xl font-bold mb-6">მანქანების სია</h1>
 
