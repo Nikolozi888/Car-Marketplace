@@ -22,7 +22,7 @@ class CarController extends Controller
                 'description',
                 'price',
             ], 'like', '%' . $request->search . '%');
-        })->get();
+        })->paginate(15);
         return view('cars.index', ['cars' => $cars]);
     }
 

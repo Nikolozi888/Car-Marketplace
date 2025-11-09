@@ -40,6 +40,7 @@
             @endforeach
         </div>
 
+        {{ $cars->appends(request()->query())->links() }}
         
     @endif
 @endsection
