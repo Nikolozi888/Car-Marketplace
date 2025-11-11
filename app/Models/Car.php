@@ -27,4 +27,9 @@ class Car extends Model
     {
         return $this->hasOne(CarDetail::class, 'car_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
