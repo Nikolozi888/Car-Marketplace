@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CarAddRequest;
 use App\Http\Requests\CarUpdateRequest;
 use App\Models\Car;
+use App\Models\CarDetail;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -24,7 +25,7 @@ class CarController extends Controller
                 'description',
                 'price',
             ], 'like', '%' . $request->search . '%');
-        })->paginate(15);
+        })->with('detail')->paginate(15);
         return view('cars.index', ['cars' => $cars]);
     }
 

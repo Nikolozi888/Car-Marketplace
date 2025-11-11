@@ -22,4 +22,9 @@ class Car extends Model
         'description',
         'image',
     ];
+
+    public function detail()
+    {
+        return $this->hasOne(CarDetail::class, 'car_id');
+    }
 }
