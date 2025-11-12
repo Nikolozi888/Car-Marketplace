@@ -19,6 +19,12 @@
             <p class="text-gray-600 mb-6">
                 {{ $car->user->name }}
                 {{ $car->detail->color }}
+            </p>
+            
+             <p class="text-gray-600 mb-6">
+                @foreach ($car->features as $feature)
+                    {{ $feature->name }}                    
+                @endforeach
             </p>    
 
             <div class="flex space-x-4">
