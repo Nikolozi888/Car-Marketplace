@@ -73,4 +73,9 @@ class User extends Authenticatable
             'id'              // local key on cars table
         );
     }
+
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
 }

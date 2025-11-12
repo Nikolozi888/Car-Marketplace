@@ -6,6 +6,7 @@ use App\Http\Requests\CarAddRequest;
 use App\Http\Requests\CarUpdateRequest;
 use App\Models\Car;
 use App\Models\CarDetail;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -44,12 +45,16 @@ class CarController extends Controller
     {
         $validated = $request->validated();
 
+        $validated['user_id'] = 1;
+        $car = Car::create($validated);
+
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('photos', 'public');
-            $validated['image'] = $imagePath;
+            // ვქმნით image ჩანაწერს polymorphic კავშირის მიხედვით
+            $car->images()->create([
+                'path' => $imagePath,
+            ]);
         }
-
-        Car::create($validated);
 
         return redirect()->route('cars.index')->with('success', 'მანქანა წარმატებით დაემატა!');
     }

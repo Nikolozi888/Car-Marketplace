@@ -27,7 +27,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach ($cars as $car)
                 <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                    <img src="{{ asset('storage/' . $car->image) ?: 'https://via.placeholder.com/400x300.png?text=No+Image' }}" alt="{{ $car->make }} {{ $car->model }}" class="w-full h-56 object-cover">
+                    <img src="{{ count($car->images) > 0 ? asset('storage/' . $car->images->first()->path) : 'https://via.placeholder.com/1200x600.png?text=No+Image' }}" alt="{{ $car->make }} {{ $car->model }}" class="w-full h-56 object-cover">
                     <div class="p-4">
                         <h2 class="text-2xl font-bold text-blue-700">{{ $car->make }} {{ $car->model }}</h2>
                         <p class="text-gray-600 text-lg mb-2">{{ $car->year }}</p>

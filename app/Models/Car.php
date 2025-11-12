@@ -15,6 +15,7 @@ class Car extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_id',
         'make',
         'model',
         'year',
@@ -36,5 +37,10 @@ class Car extends Model
     public function features()
     {
         return $this->belongsToMany(Feature::class, 'car_feature');
+    }
+
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
 }
