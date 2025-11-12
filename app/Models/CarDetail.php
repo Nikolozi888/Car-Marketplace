@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CarDetail extends Model
 {
-    public function Car()
+    public function car()
     {
         return $this->belongsTo(Car::class, 'car_id');
     }

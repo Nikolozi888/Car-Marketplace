@@ -16,16 +16,25 @@
                 {{ $car->description ?: 'აღწერა არ არის მითითებული.' }}
             </p>
 
+            ------------------------------------------------------------------------------
             <p class="text-gray-600 mb-6">
                 {{ $car->user->name }}
                 {{ $car->detail->color }}
             </p>
             
-             <p class="text-gray-600 mb-6">
+            <p class="text-gray-600 mb-6">
                 @foreach ($car->features as $feature)
                     {{ $feature->name }}                    
                 @endforeach
             </p>    
+
+            <p class="text-gray-600 mb-6">
+                <?php
+                    $user = $car->user;
+                ?>
+
+                {{ $user->carDetail->hp }}
+            </p>
 
             <div class="flex space-x-4">
                 <a href="{{ route('cars.edit', $car) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded">
