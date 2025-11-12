@@ -36,6 +36,16 @@
                 {{ $user->carDetail->hp }}
             </p>
 
+             <p class="text-gray-600 mb-6">
+                <?php
+                    $user = $car->user;
+                ?>
+
+                @foreach ($user->carDetails as $detail)
+                   {{ $detail->mileage }}
+                @endforeach
+            </p>
+
             <div class="flex space-x-4">
                 <a href="{{ route('cars.edit', $car) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded">
                     რედაქტირება

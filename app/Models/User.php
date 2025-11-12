@@ -61,4 +61,16 @@ class User extends Authenticatable
             'id'              // local key on cars table
         );
     }
+
+    public function carDetails()
+    {
+        return $this->hasManyThrough(
+            CarDetail::class, // საბოლოო მოდელი
+            Car::class,       // შუამავალი მოდელი
+            'user_id',        // foreign key on cars table
+            'car_id',         // foreign key on car_details table
+            'id',             // local key on users table
+            'id'              // local key on cars table
+        );
+    }
 }
