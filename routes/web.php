@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CarController;
 
 Route::get('/', function () {
@@ -16,3 +17,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/cars', [AdminController::class, 'carsIndex'])->name('cars.index');
 
 });
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
