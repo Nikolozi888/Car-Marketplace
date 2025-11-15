@@ -50,13 +50,13 @@
             </p>
 
             <div class="flex space-x-4">
-                @can('edit-car', $car)
+                @can('update', $car)
                     <a href="{{ route('cars.edit', $car) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded">
                         რედაქტირება
                     </a>
                 @endcan
                 
-                @can('delete-car', $car)
+                @can('delete', $car)
                     <form action="{{ route('cars.destroy', $car) }}" method="POST" onsubmit="return confirm('ნამდვილად გსურთ წაშლა?');">
                         @csrf
                         @method('DELETE')

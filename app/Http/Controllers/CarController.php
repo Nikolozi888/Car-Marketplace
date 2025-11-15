@@ -74,7 +74,7 @@ class CarController extends Controller
      */
     public function edit(Car $car): View
     {
-        Gate::authorize('edit-car', $car);
+        Gate::authorize('update', $car);
 
         return view('cars.edit', ['car' => $car]);
     }
@@ -84,7 +84,7 @@ class CarController extends Controller
      */
     public function update(CarUpdateRequest $request, Car $car): RedirectResponse
     {
-        Gate::authorize('edit-car', $car);
+        Gate::authorize('update', $car);
 
         $validated = $request->validated();
 
@@ -106,7 +106,7 @@ class CarController extends Controller
      */
     public function destroy(Car $car): RedirectResponse
     {
-        Gate::authorize('delete-car', $car);
+        Gate::authorize('delete', $car);
 
         if ($car->image && file_exists(storage_path('app/public/' . $car->image))) {
             unlink(storage_path('app/public/' . $car->image));

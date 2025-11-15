@@ -22,12 +22,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('edit-car', function(User $user, Car $car){
-            return $car->user == $user;
-        });
+        // Gate::define('edit-car', function(User $user, Car $car){
+        //     return $car->user == $user;
+        // });
 
-        Gate::define('delete-car', function(User $user, Car $car){
-            return $car->user == $user;
-        });
+        // Gate::define('delete-car', function(User $user, Car $car){
+        //     return $car->user == $user;
+        // });
     }
 }
