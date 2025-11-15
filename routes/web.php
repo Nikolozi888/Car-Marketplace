@@ -12,7 +12,7 @@ Route::get('/', function () {
 
 Route::resource('cars', CarController::class);
 
-Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
 
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/cars', [AdminController::class, 'carsIndex'])->name('cars.index');
