@@ -10,6 +10,8 @@ use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class CarController extends Controller
 {
@@ -45,7 +47,7 @@ class CarController extends Controller
     {
         $validated = $request->validated();
 
-        $validated['user_id'] = 1;
+        $validated['user_id'] = Auth::user()->id;
         $car = Car::create($validated);
 
         if ($request->hasFile('image')) {
@@ -72,6 +74,8 @@ class CarController extends Controller
      */
     public function edit(Car $car): View
     {
+        Gate::authorize('edit-car', $car);
+
         return view('cars.edit', ['car' => $car]);
     }
 
@@ -80,6 +84,8 @@ class CarController extends Controller
      */
     public function update(CarUpdateRequest $request, Car $car): RedirectResponse
     {
+        Gate::authorize('edit-car', $car);
+
         $validated = $request->validated();
 
         if ($request->hasFile('image')) {
@@ -100,6 +106,8 @@ class CarController extends Controller
      */
     public function destroy(Car $car): RedirectResponse
     {
+        Gate::authorize('delete-car', $car);
+
         if ($car->image && file_exists(storage_path('app/public/' . $car->image))) {
             unlink(storage_path('app/public/' . $car->image));
         }

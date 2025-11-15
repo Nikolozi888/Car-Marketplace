@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Car;
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +22,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::define('edit-car', function(User $user, Car $car){
+            return $car->user == $user;
+        });
+
+        Gate::define('delete-car', function(User $user, Car $car){
+            return $car->user == $user;
+        });
     }
 }

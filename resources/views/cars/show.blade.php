@@ -50,17 +50,21 @@
             </p>
 
             <div class="flex space-x-4">
-                <a href="{{ route('cars.edit', $car) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded">
-                    რედაქტირება
-                </a>
+                @can('edit-car', $car)
+                    <a href="{{ route('cars.edit', $car) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded">
+                        რედაქტირება
+                    </a>
+                @endcan
                 
-                <form action="{{ route('cars.destroy', $car) }}" method="POST" onsubmit="return confirm('ნამდვილად გსურთ წაშლა?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded">
-                        წაშლა
-                    </button>
-                </form>
+                @can('delete-car', $car)
+                    <form action="{{ route('cars.destroy', $car) }}" method="POST" onsubmit="return confirm('ნამდვილად გსურთ წაშლა?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded">
+                            წაშლა
+                        </button>
+                    </form>
+                @endcan
             </div>
         </div>
     </div>
