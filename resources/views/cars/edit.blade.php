@@ -3,16 +3,7 @@
 @section('content')
     <h1 class="text-3xl font-bold mb-6">განცხადების რედაქტირება</h1>
 
-    @if ($errors->any())
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-            <strong>შეცდომა!</strong>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    <x-error-component className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" />
 
     <form action="{{ route('cars.update', $car) }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-md">
         @csrf
