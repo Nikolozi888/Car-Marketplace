@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CarAddRequest;
 use App\Http\Requests\CarUpdateRequest;
+use App\Mail\CarCreatedMail;
 use App\Models\Car;
 use App\Models\CarDetail;
 use App\Models\Image;
@@ -12,6 +13,7 @@ use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
 
 class CarController extends Controller
 {
@@ -57,6 +59,9 @@ class CarController extends Controller
                 'path' => $imagePath,
             ]);
         }
+
+        $user = Auth::user();
+        Mail::to($user->email)->send(new CarCreatedMail($user));
 
         return redirect()->route('cars.index')->with('success', 'მანქანა წარმატებით დაემატა!');
     }
