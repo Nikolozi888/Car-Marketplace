@@ -21,12 +21,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/cars/{car}', [CarController::class, 'destroy'])->name('cars.destroy');
 });
 
-Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware('role:admin', 'verified')->group(function () {
 
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/cars', [AdminController::class, 'carsIndex'])->name('cars.index');
 
 });
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
