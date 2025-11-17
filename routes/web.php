@@ -4,11 +4,14 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\EmailsController;
 use App\Http\Middleware\AdminMiddleware;
 
 Route::get('/', function () {
     return redirect()->route('cars.index');
 });
+
+Route::get('/email/send', [EmailsController::class, 'welcomeEmail']);
 
 Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
 Route::middleware('auth')->group(function () {
