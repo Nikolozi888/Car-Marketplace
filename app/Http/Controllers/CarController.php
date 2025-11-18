@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\SendMail;
+use App\Actions\UnlinkImage;
 use App\Http\Requests\CarAddRequest;
 use App\Http\Requests\CarUpdateRequest;
 use App\Mail\CarCreatedMail;
+use App\Mail\CarUpdatedMail;
 use App\Models\Car;
 use App\Models\CarDetail;
 use App\Models\Image;
@@ -45,7 +48,7 @@ class CarController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CarAddRequest $request): RedirectResponse
+    public function store(CarAddRequest $request, SendMail $sendMail): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -61,7 +64,7 @@ class CarController extends Controller
         }
 
         $user = Auth::user();
-        Mail::to($user->email)->send(new CarCreatedMail($user));
+        $sendMail->handle($user->email, new CarCreatedMail($user));
 
         return redirect()->route('cars.index')->with('success', 'მანქანა წარმატებით დაემატა!');
     }
@@ -87,20 +90,21 @@ class CarController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CarUpdateRequest $request, Car $car): RedirectResponse
+    public function update(CarUpdateRequest $request, Car $car, UnlinkImage $unlink, SendMail $sendMail): RedirectResponse
     {
         Gate::authorize('update', $car);
 
         $validated = $request->validated();
 
         if ($request->hasFile('image')) {
-            if ($car->image && file_exists(storage_path('app/public/' . $car->image))) {
-                unlink(storage_path('app/public/' . $car->image));
-            }
+            $unlink->handle($car);
             $validated['image'] = $request->file('image')->store('photos', 'public');
         }
 
         $car->update($validated);
+
+        $user = Auth::user();
+        $sendMail->handle($user->email, new CarUpdatedMail($user));
 
         return redirect()->route('cars.show', $car)->with('success', 'განცხადება განახლდა!');
     }
@@ -109,13 +113,12 @@ class CarController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Car $car): RedirectResponse
+    public function destroy(Car $car, UnlinkImage $unlink): RedirectResponse
     {
         Gate::authorize('delete', $car);
 
-        if ($car->image && file_exists(storage_path('app/public/' . $car->image))) {
-            unlink(storage_path('app/public/' . $car->image));
-        }
+        $unlink->handle($car);
+
         $car->delete();
         return redirect()->route('cars.index')->with('success', 'განცხადება წაიშალა!');
     }
