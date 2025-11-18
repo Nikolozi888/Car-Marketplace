@@ -13,6 +13,7 @@
             <h1 class="text-4xl font-bold text-blue-800 mb-2">{{ $car->make }} {{ $car->model }}</h1>
             <p class="text-gray-700 text-2xl mb-4">{{ $car->year }}</p>
             <p class="text-4xl font-extrabold text-green-600 mb-6">${{ number_format($car->price, 2) }}</p>
+            <p class="text-xl font-semibold text-blue-500 mb-6">Center: {{$car->center->center_name }}</p>
             
             <h3 class="text-xl font-semibold mb-2">აღწერა:</h3>
             <p class="text-gray-600 mb-6">
@@ -22,7 +23,7 @@
             ------------------------------------------------------------------------------
             <p class="text-gray-600 mb-6">
                 {{ $car->user->name }}
-                {{ $car->detail->color }}
+                {{ $car->detail?->color }}
             </p>
             
             <p class="text-gray-600 mb-6">
@@ -36,7 +37,7 @@
                     $user = $car->user;
                 ?>
 
-                {{ $user->carDetail->hp }}
+                {{ $user->carDetail?->hp }}
             </p>
 
              <p class="text-gray-600 mb-6">

@@ -22,6 +22,7 @@ class CarAddRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'center_id' => 'required|exists:centers,id',
             'user_id' => 'nullable|exists:users,id',
             'make' => 'required|string|max:255',
             'model' => 'required|string|max:255',

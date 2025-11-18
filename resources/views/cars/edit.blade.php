@@ -9,6 +9,24 @@
         @csrf
         @method('PUT') 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <div>
+                <label for="center_id" class="block text-sm font-medium text-gray-700">ცენტრი</label>
+
+                <select name="center_id" id="center_id"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                    required>
+                    <option value="">აირჩიეთ ცენტრი</option>
+
+                    @foreach (App\Models\Center::all() as $center)
+                        <option value="{{ $center->id }}"
+                            {{ $car->center->id == $center->id ? 'selected' : '' }}>
+                            {{ $center->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
             <div>
                 <label for="make" class="block text-sm font-medium text-gray-700">მარკა</label>
                 <input type="text" name="make" id="make" value="{{ old('make', $car->make) }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>

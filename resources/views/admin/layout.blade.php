@@ -20,6 +20,9 @@
             <a href="{{ route('admin.cars.index') }}" class="block px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
                 მანქანების მართვა
             </a>
+            <a href="{{ route('admin.centers.index') }}" class="block px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white">
+                ცენტრების მართვა
+            </a>
             <hr class="my-4 border-gray-600">
             <a href="{{ route('cars.index') }}" target="_blank" class="block px-4 py-2 text-sm text-gray-400 hover:bg-gray-700 hover:text-white">
                 საჯარო საიტზე გადასვლა &rarr;

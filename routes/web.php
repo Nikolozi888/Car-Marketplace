@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CarCenterController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CarController;
@@ -24,8 +25,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/cars/{car}', [CarController::class, 'destroy'])->name('cars.destroy');
 });
 
-Route::prefix('admin')->name('admin.')->middleware('role:admin', 'verified')->group(function () {
 
+Route::prefix('admin')->name('admin.')->middleware('role:admin', 'verified')->group(function () {
+    
+    Route::resource('centers', CarCenterController::class)->names('centers');
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/cars', [AdminController::class, 'carsIndex'])->name('cars.index');
 

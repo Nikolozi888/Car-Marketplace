@@ -15,6 +15,7 @@ class Car extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'center_id',
         'user_id',
         'make',
         'model',
@@ -42,5 +43,10 @@ class Car extends Model
     public function images()
     {
         return $this->morphMany(Image::class, 'imageable');
+    }
+
+    public function center()
+    {
+        return $this->belongsTo(Center::class);
     }
 }
