@@ -7,17 +7,17 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class CenterUpdated extends Notification
+class CarCreated extends Notification
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public $center;
-    public function __construct($center)
+    public $car;
+    public function __construct($car)
     {
-        $this->center = $center;
+        $this->car = $car;
     }
 
     /**
@@ -44,10 +44,10 @@ class CenterUpdated extends Notification
     public function toDatabase(object $notifiable)
     {
         return [
-            'type' => 'center_created',
-            'center_name' => $this->center->center_name,
-            'address' => $this->center->address,
-            'message' => 'ცენტრი განახლდა',
+            'type' => 'car_created',
+            'make' => $this->car->make,
+            'model' => $this->car->model,
+            'message' => 'ახალი მანქანა დაემატა',
         ];
     }
 

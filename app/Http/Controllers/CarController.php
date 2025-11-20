@@ -6,11 +6,14 @@ use App\Actions\SendMail;
 use App\Actions\UnlinkImage;
 use App\Http\Requests\CarAddRequest;
 use App\Http\Requests\CarUpdateRequest;
+use App\Jobs\SendNotifications;
 use App\Mail\CarCreatedMail;
 use App\Mail\CarUpdatedMail;
 use App\Models\Car;
 use App\Models\CarDetail;
 use App\Models\Image;
+use App\Models\User;
+use App\Notifications\CarCreated;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -63,8 +66,15 @@ class CarController extends Controller
             ]);
         }
 
-        $user = Auth::user();
-        $sendMail->handle($user->email, new CarCreatedMail($user));
+        // $user = Auth::user();
+        // $sendMail->handle($user->email, new CarCreatedMail($user));
+
+        $users = User::all();
+
+        foreach($users as $person)
+        {
+            SendNotifications::dispatch($person, $car);
+        }
 
         return redirect()->route('cars.index')->with('success', 'მანქანა წარმატებით დაემატა!');
     }
