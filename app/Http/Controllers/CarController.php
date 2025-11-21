@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\SendMail;
 use App\Actions\UnlinkImage;
+use App\Contracts\CarCrudInterface;
 use App\Http\Requests\CarAddRequest;
 use App\Http\Requests\CarUpdateRequest;
 use App\Jobs\SendNotifications;
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 
-class CarController extends Controller
+class CarController extends Controller implements CarCrudInterface
 {
     /**
      * Display a listing of the resource.
