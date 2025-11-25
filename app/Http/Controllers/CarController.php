@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Car\CreateCarAction;
-use App\Actions\Car\DeleteCarAction;
-use App\Actions\Car\UpdateCarAction;
 use App\Actions\CheckGateAction;
 use App\Actions\UnlinkImageAction;
+use App\Contracts\Actions\CreateableInterface;
+use App\Contracts\Actions\DeleteableInterface;
+use App\Contracts\Actions\UpdateableInterface;
 use App\Http\Requests\CarAddRequest;
 use App\Http\Requests\CarUpdateRequest;
 use App\Models\Car;
@@ -21,9 +21,9 @@ use Illuminate\Http\RedirectResponse;
 class CarController extends Controller
 {
     public function __construct(
-        private CreateCarAction $createCar,
-        private UpdateCarAction $updateCar,
-        private DeleteCarAction $deleteCar,
+        private CreateableInterface $createCar,
+        private UpdateableInterface $updateCar,
+        private DeleteableInterface $deleteCar,
         private AddImageService $addImage,
         private UpdateImageService $updateImage,
         private SendCarCreatedNotificationsService $sendNotifications,

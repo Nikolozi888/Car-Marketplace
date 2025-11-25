@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Center\GetCenterAction;
-use App\Actions\Center\CreateCenterAction;
-use App\Actions\Center\UpdateCenterAction;
-use App\Actions\Center\DeleteCenterAction;
+use App\Contracts\Actions\CreateableInterface;
+use App\Contracts\Actions\DeleteableInterface;
+use App\Contracts\Actions\UpdateableInterface;
 use App\Http\Requests\AddCenterRequest;
 use App\Http\Requests\UpdateCenterRequest;
 use App\Models\Center;
@@ -17,9 +17,9 @@ class CarCenterController extends Controller
 {
     public function __construct(
         private GetCenterAction $getCenter,
-        private CreateCenterAction $createCenter,
-        private UpdateCenterAction $updateCenter,
-        private DeleteCenterAction $deleteCenter
+        private CreateableInterface $createCenter,
+        private UpdateableInterface $updateCenter,
+        private DeleteableInterface $deleteCenter
     ) {}
 
     public function index()
