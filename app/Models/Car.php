@@ -25,6 +25,19 @@ class Car extends Model
         'image',
     ];
 
+    public function scopeSearch($query, $search)
+    {
+        return $query->when($search, function ($query) use ($search) {
+            return $query->whereAny([
+                'make',
+                'model',
+                'year',
+                'description',
+                'price',
+            ], 'like', '%' . $search . '%');
+        });
+    }
+
     public function detail()
     {
         return $this->hasOne(CarDetail::class, 'car_id');

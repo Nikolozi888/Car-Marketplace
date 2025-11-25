@@ -2,7 +2,7 @@
 
 namespace App\Actions;
 
-class UnlinkImage
+class UnlinkImageAction
 {
     public function handle($model)
     {
