@@ -2,13 +2,15 @@
 
 namespace App\Actions\Car;
 
-class UpdateCarAction
+use App\Contracts\Actions\UpdateableInterface;
+use App\Models\Car;
+use Illuminate\Database\Eloquent\Model;
+
+class UpdateCarAction implements UpdateableInterface
 {
-    /**
-     * Create a new class instance.
-     */
-    public function handle($car, $data)
+    public function handle(Model $car, array $data): Car
     {
         $car->update($data);
+        return $car;
     }
 }

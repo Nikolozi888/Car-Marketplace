@@ -2,13 +2,14 @@
 
 namespace App\Actions\Center;
 
+use App\Contracts\Actions\CreateableInterface;
 use App\Models\Center;
+use Illuminate\Database\Eloquent\Model;
 
-class CreateCenterAction
+class CreateCenterAction implements CreateableInterface
 {
-    public function handle($data)
+    public function handle(array $data): Model
     {
-        $center = Center::create($data);
-        return $center;
+        return Center::create($data);
     }
 }

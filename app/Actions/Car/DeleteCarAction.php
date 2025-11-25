@@ -2,13 +2,14 @@
 
 namespace App\Actions\Car;
 
-class DeleteCarAction
+use App\Contracts\Actions\DeleteableInterface;
+use App\Models\Car;
+use Illuminate\Database\Eloquent\Model;
+
+class DeleteCarAction implements DeleteableInterface
 {
-    /**
-     * Create a new class instance.
-     */
-    public function handle($car)
+    public function handle(Model $car): bool
     {
-        $car->delete();
+        return $car->delete();
     }
 }

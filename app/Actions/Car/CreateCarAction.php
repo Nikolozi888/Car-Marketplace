@@ -2,16 +2,13 @@
 
 namespace App\Actions\Car;
 
+use App\Contracts\Actions\CreateableInterface;
 use App\Models\Car;
 
-class CreateCarAction
+class CreateCarAction implements CreateableInterface
 {
-    /**
-     * Create a new class instance.
-     */
-    public function handle($data)
+    public function handle(array $data): Car
     {
-        $car = Car::create($data);
-        return $car;
+        return Car::create($data);
     }
 }

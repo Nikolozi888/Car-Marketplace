@@ -2,15 +2,14 @@
 
 namespace App\Actions\Center;
 
+use App\Contracts\Actions\DeleteableInterface;
 use App\Models\Center;
+use Illuminate\Database\Eloquent\Model;
 
-class DeleteCenterAction
+class DeleteCenterAction implements DeleteableInterface
 {
-    /**
-     * Create a new class instance.
-     */
-    public function handle(Center $center)
+    public function handle(Model $center): bool
     {
-        $center->delete();
+        return $center->delete();
     }
 }
