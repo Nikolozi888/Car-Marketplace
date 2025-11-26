@@ -1,0 +1,1 @@
+<h1>Your Account Deleted Successfully</h1>

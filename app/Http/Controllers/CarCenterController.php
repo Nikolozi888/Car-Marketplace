@@ -40,7 +40,7 @@ class CarCenterController extends Controller
 
         $center = $this->createCenter->handle($validated);
 
-        Auth::user()->notify(new CenterCreated($center));
+        // notification არის Observer-ში
 
         return redirect()
             ->route('admin.centers.index')
@@ -58,7 +58,7 @@ class CarCenterController extends Controller
 
         $this->updateCenter->handle($center, $validated);
 
-        Auth::user()->notify(new CenterUpdated($center));
+        // notification არის Observer-ში
 
         return redirect()
             ->route('admin.centers.index')
