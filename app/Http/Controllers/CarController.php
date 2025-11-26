@@ -12,9 +12,7 @@ use App\Http\Requests\CarUpdateRequest;
 use App\Models\Car;
 use App\Services\Car\AddImageService;
 use App\Services\Car\UpdateImageService;
-use App\Services\Car\SendCarCreatedNotificationsService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 
@@ -26,7 +24,6 @@ class CarController extends Controller
         private DeleteableInterface $deleteCar,
         private AddImageService $addImage,
         private UpdateImageService $updateImage,
-        private SendCarCreatedNotificationsService $sendNotifications,
         private CheckGateAction $checkGate,
         private UnlinkImageAction $unlinkImage,
     ) {}
@@ -47,14 +44,16 @@ class CarController extends Controller
 
     public function store(CarAddRequest $request): RedirectResponse
     {
+        // User ID-ს მინიჭებაც Observer-ში გადავიდა (creating ივენთზე),
+        // ამიტომ აქ შეგვიძლია პირდაპირ validated გადავცეთ.
         $validated = $request->validated();
-        $validated['user_id'] = Auth::id();
 
         $car = $this->createCar->handle($validated);
 
+        // სურათის ატვირთვა რჩება კონტროლერში (რადგან Request-ს ეხება)
         $this->addImage->execute($request, $car);
 
-        $this->sendNotifications->execute($car);
+        // ნოტიფიკაცია წაიშალა აქედან -> გადავიდა Observer-ის "created"-ში
 
         return redirect()->route('cars.index')
             ->with('success', 'მანქანა წარმატებით დაემატა!');
@@ -78,6 +77,8 @@ class CarController extends Controller
 
         $validated = $request->validated();
 
+        // აქ unlinkImage ისევ გვჭირდება პარამეტრად, რადგან ეს update ლოგიკაა
+        // და არა სრული delete.
         $this->updateImage->execute($request, $car, $this->unlinkImage);
 
         $this->updateCar->handle($car, $validated);
@@ -90,8 +91,9 @@ class CarController extends Controller
     {
         $this->checkGate->handle('delete', $car);
 
-        $this->unlinkImage->handle($car);
-
+        // UnlinkImage ამოვიღეთ აქედან -> გადავიდა Observer-ის "deleted"-ში.
+        // როგორც კი deleteCar->handle($car) შესრულდება, Observer-ი ავტომატურად წაშლის სურათს.
+        
         $this->deleteCar->handle($car);
 
         return redirect()->route('cars.index')
