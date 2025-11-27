@@ -6,9 +6,11 @@ use App\Actions\Center\GetCenterAction;
 use App\Contracts\Actions\CreateableInterface;
 use App\Contracts\Actions\DeleteableInterface;
 use App\Contracts\Actions\UpdateableInterface;
+use App\Events\Center\CenterDeleted;
 use App\Http\Requests\AddCenterRequest;
 use App\Http\Requests\UpdateCenterRequest;
 use App\Models\Center;
+use App\Events\Center\CenterCreated as CenterCreatedEvent;
 use App\Notifications\CenterCreated;
 use App\Notifications\CenterUpdated;
 use Illuminate\Support\Facades\Auth;
@@ -42,6 +44,8 @@ class CarCenterController extends Controller
 
         // notification არის Observer-ში
 
+        event(new CenterCreatedEvent($center));
+
         return redirect()
             ->route('admin.centers.index')
             ->with('success', 'ცენტრი წარმატებით დაემატა!');
@@ -68,6 +72,8 @@ class CarCenterController extends Controller
     public function destroy(Center $center)
     {
         $this->deleteCenter->handle($center);
+
+        event(new CenterDeleted($center));
 
         return redirect()
             ->route('admin.centers.index')

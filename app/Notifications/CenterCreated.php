@@ -44,7 +44,7 @@ class CenterCreated extends Notification
     public function toDatabase(object $notifiable)
     {
         return [
-            'type' => 'center_created',
+            'type' => 'center',
             'center_name' => $this->center->center_name,
             'address' => $this->center->address,
             'message' => 'ახალი ცენტრი შეიქმნა',

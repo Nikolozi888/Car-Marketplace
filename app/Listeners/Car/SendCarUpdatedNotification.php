@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Listeners;
+namespace App\Listeners\Car;
 
-use App\Events\CarUpdated;
+use App\Events\Car\CarUpdated;
 use App\Notifications\CarUpdatedNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;

@@ -7,7 +7,8 @@ use App\Actions\UnlinkImageAction;
 use App\Contracts\Actions\CreateableInterface;
 use App\Contracts\Actions\DeleteableInterface;
 use App\Contracts\Actions\UpdateableInterface;
-use App\Events\CarUpdated;
+use App\Events\Car\CarUpdated;
+use App\Events\Car\DeleteCarEvent;
 use App\Http\Requests\CarAddRequest;
 use App\Http\Requests\CarUpdateRequest;
 use App\Models\Car;
@@ -100,6 +101,8 @@ class CarController extends Controller
         // როგორც კი deleteCar->handle($car) შესრულდება, Observer-ი ავტომატურად წაშლის სურათს.
 
         $this->deleteCar->handle($car);
+
+        event(new DeleteCarEvent($car));
 
         return redirect()->route('cars.index')
             ->with('success', 'განცხადება წაიშალა!');

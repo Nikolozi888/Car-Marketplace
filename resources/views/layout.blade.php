@@ -72,13 +72,13 @@
                                     <a href="#"
                                         class="block px-4 py-3 hover:bg-blue-50 transition duration-150 border-b border-gray-100">
 
-                                        @if (($notification->data['type'] ?? null) === 'car_created')
+                                        @if (($notification->data['type'] ?? null) === 'car')
                                             <p class="text-sm text-gray-700 font-semibold">🚗 {{ $notification->data['message'] }}</p>
                                             <p class="text-sm text-gray-500">
-                                                {{ $notification->data['make'] }} - {{ $notification->data['model'] }}
+                                                {{ $notification->data['make'] }} - {{ $notification?->data['model'] ?? 'N/A' }}
                                             </p>
 
-                                        @elseif (($notification->data['type'] ?? null) === 'center_created')
+                                        @elseif (($notification->data['type'] ?? null) === 'center')
                                             <p class="text-sm text-gray-700 font-semibold">🏢{{ $notification->data['message']  }}</p>
                                             <p class="text-sm text-gray-500">
                                                 {{ $notification->data['center_name'] }}
