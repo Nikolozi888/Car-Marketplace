@@ -7,6 +7,7 @@ use App\Actions\UnlinkImageAction;
 use App\Contracts\Actions\CreateableInterface;
 use App\Contracts\Actions\DeleteableInterface;
 use App\Contracts\Actions\UpdateableInterface;
+use App\Events\CarUpdated;
 use App\Http\Requests\CarAddRequest;
 use App\Http\Requests\CarUpdateRequest;
 use App\Models\Car;
@@ -26,7 +27,8 @@ class CarController extends Controller
         private UpdateImageService $updateImage,
         private CheckGateAction $checkGate,
         private UnlinkImageAction $unlinkImage,
-    ) {}
+    ) {
+    }
 
     public function index(Request $request): View
     {
@@ -83,6 +85,9 @@ class CarController extends Controller
 
         $this->updateCar->handle($car, $validated);
 
+        // Fire event
+        CarUpdated::dispatch($car);
+
         return redirect()->route('cars.show', $car)
             ->with('success', 'განცხადება განახლდა!');
     }
@@ -93,7 +98,7 @@ class CarController extends Controller
 
         // UnlinkImage ამოვიღეთ აქედან -> გადავიდა Observer-ის "deleted"-ში.
         // როგორც კი deleteCar->handle($car) შესრულდება, Observer-ი ავტომატურად წაშლის სურათს.
-        
+
         $this->deleteCar->handle($car);
 
         return redirect()->route('cars.index')
