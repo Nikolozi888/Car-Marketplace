@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\Car\CarUpdated;
 use App\Observers\CarObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,6 +12,10 @@ use Illuminate\Database\Eloquent\Model;
 class Car extends Model
 {
     use HasFactory;
+
+    protected $dispatchesEvents = [
+        'updated' => CarUpdated::class, // car მოდელი ავტომატურად გადაეცემა
+    ];
 
     /**
      * The attributes that are mass assignable.

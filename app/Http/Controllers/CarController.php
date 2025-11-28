@@ -89,7 +89,7 @@ class CarController extends Controller
         $this->updateCar->handle($car, $validated);
 
         // Fire event
-        CarUpdated::dispatch($car);
+        // CarUpdated::dispatch($car); -> გადავიდა model-ში
 
         return redirect()->route('cars.show', $car)
             ->with('success', 'განცხადება განახლდა!');
