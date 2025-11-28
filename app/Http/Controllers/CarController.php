@@ -58,6 +58,8 @@ class CarController extends Controller
 
         // ნოტიფიკაცია წაიშალა აქედან -> გადავიდა Observer-ის "created"-ში
 
+        // event არის Observer
+
         return redirect()->route('cars.index')
             ->with('success', 'მანქანა წარმატებით დაემატა!');
     }

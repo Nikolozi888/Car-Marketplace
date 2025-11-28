@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\Car\CarCreatedEvent;
 use App\Models\Car;
 use App\Services\Car\SendCarCreatedNotificationsService;
 use App\Actions\UnlinkImageAction;
@@ -33,6 +34,8 @@ class CarObserver
     public function created(Car $car): void
     {
         $this->sendNotifications->execute($car);
+
+        event(new CarCreatedEvent($car));
     }
 
     /**

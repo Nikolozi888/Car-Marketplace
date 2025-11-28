@@ -64,6 +64,8 @@ class CarCenterController extends Controller
 
         // notification არის Observer-ში
 
+        // event არის observer-ში
+
         return redirect()
             ->route('admin.centers.index')
             ->with('success', 'ცენტრი წარმატებით განახლდა!');

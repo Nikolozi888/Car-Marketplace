@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\Center\CenterUpdated as CenterUpdatedEvent;
 use App\Models\Center;
 use App\Notifications\CenterCreated;
 use App\Notifications\CenterUpdated;
@@ -23,6 +24,8 @@ class CenterObserver
     public function updated(Center $center): void
     {
         Auth::user()->notify(new CenterUpdated($center));
+
+        event(new CenterUpdatedEvent($center));
     }
 
     /**
