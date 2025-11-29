@@ -28,14 +28,14 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::prefix('admin')->name('admin.')->middleware('role:admin', 'verified')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
     
     Route::resource('centers', CarCenterController::class)->names('centers');
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/cars', [AdminController::class, 'carsIndex'])->name('cars.index');
 
 });
-Auth::routes(['verify' => true]);
+Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/test', [GenerateImageController::class, '__invoke']);

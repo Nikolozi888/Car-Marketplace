@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Jobs\UserSendVerify;
 use App\Mail\DeleteUserEmail;
 use App\Mail\WelcomeEmail;
 use App\Models\User;
@@ -18,11 +19,7 @@ class UserObserver
      */
     public function created(User $user): void
     {
-        try {
-            Mail::to($user->email)->send(new WelcomeEmail($user));
-        } catch (\Exception $e) {
-            Log::error("Welcome email failed for user {$user->id}: " . $e->getMessage());
-        }
+        UserSendVerify::dispatch($user);
     }
 
     /**
