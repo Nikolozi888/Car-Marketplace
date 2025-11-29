@@ -6,7 +6,9 @@ use App\Events\Car\CarCreatedEvent;
 use App\Models\Car;
 use App\Services\Car\SendCarCreatedNotificationsService;
 use App\Actions\UnlinkImageAction;
+use App\Mail\CarUpdatedMail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class CarObserver
 {
@@ -36,6 +38,12 @@ class CarObserver
         $this->sendNotifications->execute($car);
 
         event(new CarCreatedEvent($car));
+    }
+
+    public function updated(): void
+    {
+        $user = Auth::user();
+        Mail::to($user->email)->send(new CarUpdatedMail($user));
     }
 
     /**

@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\CheckGateAction;
-use App\Actions\UnlinkImageAction;
 use App\Contracts\Actions\CreateableInterface;
 use App\Contracts\Actions\DeleteableInterface;
 use App\Contracts\Actions\UpdateableInterface;
@@ -27,8 +25,6 @@ class CarController extends Controller
         private DeleteableInterface $deleteCar,
         private AddImageService $addImage,
         private UpdateImageService $updateImage,
-        private CheckGateAction $checkGate,
-        private UnlinkImageAction $unlinkImage,
         private CarRepositoryInterface $carRepository,
     ) {
     }
@@ -71,20 +67,18 @@ class CarController extends Controller
 
     public function edit(Car $car): View
     {
-        $this->checkGate->handle('update', $car);
+        $this->authorize('update', $car);
 
         return view('cars.edit', compact('car'));
     }
 
     public function update(CarUpdateRequest $request, Car $car): RedirectResponse
     {
-        $this->checkGate->handle('update', $car);
+        $this->authorize('update', $car);
 
         $validated = $request->validated();
 
-        // აქ unlinkImage ისევ გვჭირდება პარამეტრად, რადგან ეს update ლოგიკაა
-        // და არა სრული delete.
-        $this->updateImage->execute($request, $car, $this->unlinkImage);
+        $this->updateImage->execute($request, $car);
 
         $this->updateCar->handle($car, $validated);
 
@@ -97,7 +91,7 @@ class CarController extends Controller
 
     public function destroy(Car $car): RedirectResponse
     {
-        $this->checkGate->handle('delete', $car);
+        $this->authorize('delete', $car);
 
         // UnlinkImage ამოვიღეთ აქედან -> გადავიდა Observer-ის "deleted"-ში.
         // როგორც კი deleteCar->handle($car) შესრულდება, Observer-ი ავტომატურად წაშლის სურათს.
