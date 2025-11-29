@@ -7,6 +7,7 @@ use App\Actions\UnlinkImageAction;
 use App\Contracts\Actions\CreateableInterface;
 use App\Contracts\Actions\DeleteableInterface;
 use App\Contracts\Actions\UpdateableInterface;
+use App\Contracts\Repositories\CarRepositoryInterface;
 use App\Events\Car\CarUpdated;
 use App\Events\Car\DeleteCarEvent;
 use App\Http\Requests\CarAddRequest;
@@ -28,14 +29,13 @@ class CarController extends Controller
         private UpdateImageService $updateImage,
         private CheckGateAction $checkGate,
         private UnlinkImageAction $unlinkImage,
+        private CarRepositoryInterface $carRepository,
     ) {
     }
 
     public function index(Request $request): View
     {
-        $cars = Car::search($request->search)
-            ->with('detail')
-            ->paginate(15);
+        $cars = $this->carRepository->getPaginatedCars($request->search);
 
         return view('cars.index', compact('cars'));
     }
