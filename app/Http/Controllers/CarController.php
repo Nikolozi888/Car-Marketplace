@@ -22,7 +22,7 @@ use Illuminate\Http\RedirectResponse;
 class CarController extends Controller
 {
     public function __construct(
-        private CreateableInterface $createCar,
+        // private CreateableInterface $createCar,
         private UpdateableInterface $updateCar,
         private DeleteableInterface $deleteCar,
         private AddImageService $addImage,
@@ -51,7 +51,7 @@ class CarController extends Controller
         // ამიტომ აქ შეგვიძლია პირდაპირ validated გადავცეთ.
         $validated = $request->validated();
 
-        $car = $this->createCar->handle($validated);
+        $car = $this->carRepository->createCar($validated);
 
         // სურათის ატვირთვა რჩება კონტროლერში (რადგან Request-ს ეხება)
         $this->addImage->execute($request, $car);

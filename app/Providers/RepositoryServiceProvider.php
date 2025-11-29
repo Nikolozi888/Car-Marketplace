@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Contracts\Repositories\CarRepositoryInterface;
+use App\Contracts\Repositories\CenterRepositoryInterface;
 use App\Repositories\CarRepository;
+use App\Repositories\CenterRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -14,6 +16,7 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(CarRepositoryInterface::class, CarRepository::class);
+        $this->app->bind(CenterRepositoryInterface::class, CenterRepository::class);
     }
 
     /**
