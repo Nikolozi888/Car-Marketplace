@@ -61,7 +61,9 @@ class CarController extends Controller
 
     public function show(Car $car): View
     {
-        return view('cars.show', compact('car'));
+        $isNew = $car->isNew();
+        
+        return view('cars.show', compact('car', 'isNew'));
     }
 
     public function edit(Car $car): View
