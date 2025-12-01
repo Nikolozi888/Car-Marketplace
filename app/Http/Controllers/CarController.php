@@ -56,8 +56,7 @@ class CarController extends Controller
 
         // event არის Observer
 
-        return redirect()->route('cars.index')
-            ->with('success', 'მანქანა წარმატებით დაემატა!');
+        return $this->successRedirect('cars.index', 'მანქანა წარმატებით დაემატა!');
     }
 
     public function show(Car $car): View
@@ -85,8 +84,7 @@ class CarController extends Controller
         // Fire event
         // CarUpdated::dispatch($car); -> გადავიდა model-ში
 
-        return redirect()->route('cars.show', $car)
-            ->with('success', 'განცხადება განახლდა!');
+        return $this->successRedirect('cars.show', 'მანქანა წარმატებით განახლდა!', $car);
     }
 
     public function destroy(Car $car): RedirectResponse
@@ -100,7 +98,6 @@ class CarController extends Controller
 
         event(new DeleteCarEvent($car));
 
-        return redirect()->route('cars.index')
-            ->with('success', 'განცხადება წაიშალა!');
+        return $this->successRedirect('cars.index', 'მანქანა წარმატებით წაიშალა!');
     }
 }

@@ -49,9 +49,7 @@ class CarCenterController extends Controller
 
         event(new CenterCreatedEvent($center));
 
-        return redirect()
-            ->route('admin.centers.index')
-            ->with('success', 'ცენტრი წარმატებით დაემატა!');
+        return $this->successRedirect('admin.centers.index', 'ცენტრი წარმატებით დაემატა!');
     }
 
     public function edit(Center $center)
@@ -69,9 +67,7 @@ class CarCenterController extends Controller
 
         // event არის observer-ში
 
-        return redirect()
-            ->route('admin.centers.index')
-            ->with('success', 'ცენტრი წარმატებით განახლდა!');
+        return $this->successRedirect('admin.centers.index', 'ცენტრი წარმატებით განახლდა!');
     }
 
     public function destroy(Center $center)
@@ -80,8 +76,6 @@ class CarCenterController extends Controller
 
         event(new CenterDeleted($center));
 
-        return redirect()
-            ->route('admin.centers.index')
-            ->with('success', 'ცენტრი წარმატებით წაიშალა!');
+        return $this->successRedirect('admin.centers.index', 'ცენტრი წარმატებით წაიშალა!');
     }
 }
