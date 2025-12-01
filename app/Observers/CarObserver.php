@@ -7,15 +7,16 @@ use App\Models\Car;
 use App\Services\Car\SendCarCreatedNotificationsService;
 use App\Actions\UnlinkImageAction;
 use App\Mail\CarUpdatedMail;
+use App\Traits\ImageManagerTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class CarObserver
 {
-    // კონსტრუქტორში ვაკეთებთ სერვისების ინექციას
+    use ImageManagerTrait;
+
     public function __construct(
         private SendCarCreatedNotificationsService $sendNotifications,
-        private UnlinkImageAction $unlinkImage
     ) {}
 
     /**
@@ -50,6 +51,6 @@ class CarObserver
      */
     public function deleted(Car $car): void
     {
-        $this->unlinkImage->handle($car);
+        $this->deleteImage($car->image, 'public');
     }
 }

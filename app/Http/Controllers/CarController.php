@@ -93,7 +93,7 @@ class CarController extends Controller
     {
         $this->authorize('delete', $car);
 
-        // UnlinkImage ამოვიღეთ აქედან -> გადავიდა Observer-ის "deleted"-ში.
+        // Image Delete ამოვიღეთ აქედან -> გადავიდა Observer-ის "deleted"-ში.
         // როგორც კი deleteCar->handle($car) შესრულდება, Observer-ი ავტომატურად წაშლის სურათს.
 
         $this->deleteCar->handle($car);

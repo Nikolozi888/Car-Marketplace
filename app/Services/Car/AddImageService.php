@@ -3,17 +3,23 @@
 namespace App\Services\Car;
 
 use App\Models\Car;
+use App\Traits\ImageManagerTrait;
 
 class AddImageService
 {
-    public function execute($request, Car $car)
+    use ImageManagerTrait;
+    
+    public function execute($request, Car $car): void
     {
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('photos', 'public');
-            // ვქმნით image ჩანაწერს polymorphic კავშირის მიხედვით
-            $car->images()->create([
-                'path' => $imagePath,
-            ]);
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $uploadedFile = $request->file('image');
+            $imagePath = $this->uploadImage($uploadedFile, 'public', 'photos');
+            
+            if ($imagePath) {
+                $car->images()->create([
+                    'path' => $imagePath,
+                ]);
+            }
         }
     }
 }

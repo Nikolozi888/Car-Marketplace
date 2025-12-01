@@ -5,21 +5,18 @@ namespace App\Services\Car;
 use App\Actions\UnlinkImage;
 use App\Actions\UnlinkImageAction;
 use App\Models\Car;
+use App\Traits\ImageManagerTrait;
 
 class UpdateImageService
 {
-    public function __construct(private UnlinkImageAction $unlink)
+    use ImageManagerTrait;
+
+    public function execute($request, Car $car): void
     {
-        
-    }
-    /**
-     * Create a new class instance.
-     */
-    public function execute($request, Car $car)
-    {
-        if ($request->hasFile('image')) {
-            $this->unlink->handle($car);
-            $validated['image'] = $request->file('image')->store('photos', 'public');
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $oldImagePath = $car->image; 
+            $newPath = $this->updateImage($request->file('image'), $oldImagePath, 'public', 'photos' );
+            $request['image'] = $newPath;
         }
     }
 }
