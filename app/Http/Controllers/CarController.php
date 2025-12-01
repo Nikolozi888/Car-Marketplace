@@ -43,7 +43,7 @@ class CarController extends Controller
 
     public function store(CarAddRequest $request): RedirectResponse
     {
-        // User ID-ს მინიჭებაც Observer-ში გადავიდა (creating ივენთზე),
+        // User ID-ს მინიჭება Trait-ში გადავიდა,
         // ამიტომ აქ შეგვიძლია პირდაპირ validated გადავცეთ.
         $validated = $request->validated();
 

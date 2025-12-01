@@ -24,9 +24,7 @@ class CarObserver
      */
     public function creating(Car $car): void
     {
-        if (Auth::check() && !isset($car->user_id)) {
-            $car->user_id = Auth::id();
-        }
+        //
     }
 
     /**
