@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Contracts\Repositories\UserRepositoryInterface;
 use App\DTOs\UserDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegistrationRequest;
+use App\Jobs\NewUser;
 use App\Models\User;
 use App\Traits\ChecksForAdminName;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -13,17 +15,6 @@ use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
     use RegistersUsers, ChecksForAdminName;
 
     /**
@@ -38,7 +29,9 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        public UserRepositoryInterface $userRepository,
+    )
     {
         $this->middleware('guest');
     }
@@ -49,7 +42,9 @@ class RegisterController extends Controller
 
         $userData = UserDTO::fromRequest($request, $is_admin['is_admin']);
 
-        $user = User::create($userData->toArray());
+        $user = $this->userRepository->createUser($userData->toArray());
+
+        dispatch(new NewUser());
 
         $this->guard()->login($user);
 
