@@ -42,8 +42,6 @@ class CarCenterController extends Controller
 
     public function store(AddCenterRequest $request)
     {
-        $validated = $request->validated();
-
         $centerDto = CenterDTO::fromRequest($request);
         $center = $this->createCenter->handle($centerDto->toArray());
 
@@ -61,8 +59,6 @@ class CarCenterController extends Controller
 
     public function update(Center $center, UpdateCenterRequest $request)
     {
-        $validated = $request->validated();
-
         $centerDto = CenterDTO::fromRequest($request);
         $this->centerRepository->updateCenter($center, $centerDto->toArray());
 

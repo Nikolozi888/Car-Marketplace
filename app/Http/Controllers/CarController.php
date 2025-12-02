@@ -6,6 +6,7 @@ use App\Contracts\Actions\CreateableInterface;
 use App\Contracts\Actions\DeleteableInterface;
 use App\Contracts\Actions\UpdateableInterface;
 use App\Contracts\Repositories\CarRepositoryInterface;
+use App\DTOs\CarDTO;
 use App\Events\Car\CarUpdated;
 use App\Events\Car\DeleteCarEvent;
 use App\Http\Requests\CarAddRequest;
@@ -44,10 +45,10 @@ class CarController extends Controller
     public function store(CarAddRequest $request): RedirectResponse
     {
         // User ID-ს მინიჭება Trait-ში გადავიდა,
-        // ამიტომ აქ შეგვიძლია პირდაპირ validated გადავცეთ.
-        $validated = $request->validated();
+        // ამიტომ აქ შეგვიძლია პირდაპირ request გადავცეთ.
+        $carDto = CarDTO::fromRequest($request);
 
-        $car = $this->carRepository->createCar($validated);
+        $car = $this->carRepository->createCar($carDto->toArray());
 
         // სურათის ატვირთვა რჩება კონტროლერში (რადგან Request-ს ეხება)
         $this->addImage->execute($request, $car);
@@ -77,11 +78,11 @@ class CarController extends Controller
     {
         $this->authorize('update', $car);
 
-        $validated = $request->validated();
+        $carDto = CarDTO::fromRequest($request);
 
         $this->updateImage->execute($request, $car);
 
-        $this->updateCar->handle($car, $validated);
+        $this->updateCar->handle($car, $carDto->toArray());
 
         // Fire event
         // CarUpdated::dispatch($car); -> გადავიდა model-ში
