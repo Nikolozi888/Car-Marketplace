@@ -3,6 +3,7 @@
 namespace App\Actions\Center;
 
 use App\Contracts\Actions\CreateableInterface;
+use App\DTOs\CenterDTO;
 use App\Models\Center;
 use Illuminate\Database\Eloquent\Model;
 

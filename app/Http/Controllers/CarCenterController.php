@@ -7,6 +7,7 @@ use App\Contracts\Actions\CreateableInterface;
 use App\Contracts\Actions\DeleteableInterface;
 use App\Contracts\Actions\UpdateableInterface;
 use App\Contracts\Repositories\CenterRepositoryInterface;
+use App\DTOs\CenterDTO;
 use App\Events\Center\CenterDeleted;
 use App\Http\Requests\AddCenterRequest;
 use App\Http\Requests\UpdateCenterRequest;
@@ -43,7 +44,8 @@ class CarCenterController extends Controller
     {
         $validated = $request->validated();
 
-        $center = $this->createCenter->handle($validated);
+        $centerDto = CenterDTO::fromRequest($request);
+        $center = $this->createCenter->handle($centerDto->toArray());
 
         // notification არის Observer-ში
 
@@ -61,7 +63,8 @@ class CarCenterController extends Controller
     {
         $validated = $request->validated();
 
-        $this->centerRepository->updateCenter($center, $validated);
+        $centerDto = CenterDTO::fromRequest($request);
+        $this->centerRepository->updateCenter($center, $centerDto->toArray());
 
         // notification არის Observer-ში
 
