@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\DTOs\UserDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegistrationRequest;
 use App\Models\User;
 use App\Traits\ChecksForAdminName;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -41,36 +43,17 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
+    public function register(RegistrationRequest $request)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        $is_admin = $this->applyAdmin($request->toArray()); 
+
+        $userData = UserDTO::fromRequest($request, $is_admin['is_admin']);
+
+        $user = User::create($userData->toArray());
+
+        $this->guard()->login($user);
+
+        return $this->registered($request, $user) ?: redirect($this->redirectTo);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
-    protected function create(array $data)
-    {
-        $data = $this->applyAdmin($data);
-        
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'is_admin' => $data['is_admin'],
-            'password' => Hash::make($data['password']),
-        ]);
-    }
 }
