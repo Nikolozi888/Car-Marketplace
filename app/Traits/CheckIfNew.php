@@ -6,15 +6,22 @@ use Carbon\Carbon;
 
 trait CheckIfNew
 {
-    public function isNew()
+    public function getAgeAttribute(): int
     {
-        // $this არის ობიექტი რომელზე ხდება ამ ფუნქციის გამოძახება
         if (!isset($this->year)) {
-            return false;
+            return 0;
         }
 
-        $currentYear = Carbon::now()->year;
+        return Carbon::now()->year - $this->year;
+    }
+ 
+    public function isNew(): bool
+    {
+        return $this->age <= 5;
+    }
 
-        return ($currentYear - $this->year) <= 5;
+    public function getStatusAttribute(): string
+    {
+        return $this->isNew() ? 'brand new' : 'used';
     }
 }

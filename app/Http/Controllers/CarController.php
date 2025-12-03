@@ -63,6 +63,8 @@ class CarController extends Controller
     public function show(Car $car): View
     {
         $isNew = $car->isNew();
+        $age = $car->getAgeAttribute();
+        $status = $car->getStatusAttribute();
         
         return view('cars.show', compact('car', 'isNew'));
     }
