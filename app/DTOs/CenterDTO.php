@@ -15,11 +15,13 @@ class CenterDTO
 
     public static function fromRequest(Request $request): self
     {        
+        $data = $request->validated();
+
         return new self(
-            name: $request->validated('center_name'),
-            address: $request->validated('address'),
-            number: $request->validated('number'),
-            email: $request->validated('email'),
+            name: $data['center_name'],
+            address: $data['address'],
+            number: $data['number'],
+            email: $data['email'],
         );
     }
 
