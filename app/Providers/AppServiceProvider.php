@@ -33,10 +33,11 @@ class AppServiceProvider extends ServiceProvider
                         return new OpenAiService(new Client(), "020202002");
                     });
 
-        $this->app->bind('image.manager', function () {
-                return new ImageService();
-            });
+        $this->app->bind(ImageService::class, function () {
+            return new ImageService();
+        });
 
+        $this->app->alias(ImageService::class, 'image.manager');
     }
 
     /**

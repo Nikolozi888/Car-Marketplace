@@ -8,6 +8,6 @@ class ImageManager extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'image.manager';
+        return 'image.manager'; // ან ImageService თუ alias-ში წერია
     }
 }
