@@ -17,6 +17,7 @@ use App\Services\Car\UpdateImageService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Event;
 
 class CarController extends Controller
 {
@@ -39,11 +40,15 @@ class CarController extends Controller
 
     public function create(): View
     {
+        $this->authorize('create'); // შეგვიძლია Facade გამოვიყენოთ და დავწეროთ Gate::authorize('create');
+        
         return view('cars.create');
     }
 
     public function store(CarAddRequest $request): RedirectResponse
     {
+        $this->authorize('create'); // შეგვიძლია Facade გამოვიყენოთ და დავწეროთ Gate::authorize('create');
+
         // User ID-ს მინიჭება Trait-ში გადავიდა,
         // ამიტომ აქ შეგვიძლია პირდაპირ request გადავცეთ.
         $carDto = CarDTO::fromRequest($request);
@@ -71,14 +76,14 @@ class CarController extends Controller
 
     public function edit(Car $car): View
     {
-        $this->authorize('update', $car);
+        $this->authorize('update', $car); // შეგვიძლია Facade გამოვიყენოთ და დავწეროთ Gate::authorize('update', $car);
 
         return view('cars.edit', compact('car'));
     }
 
     public function update(CarUpdateRequest $request, Car $car): RedirectResponse
     {
-        $this->authorize('update', $car);
+        $this->authorize('update', $car); // შეგვიძლია Facade გამოვიყენოთ და დავწეროთ Gate::authorize('update', $car);
 
         $carDto = CarDTO::fromRequest($request);
 
@@ -94,14 +99,14 @@ class CarController extends Controller
 
     public function destroy(Car $car): RedirectResponse
     {
-        $this->authorize('delete', $car);
+        $this->authorize('delete', $car); // შეგვიძლია Facade გამოვიყენოთ და დავწეროთ Gate::authorize('delete', $car);
 
         // Image Delete ამოვიღეთ აქედან -> გადავიდა Observer-ის "deleted"-ში.
         // როგორც კი deleteCar->handle($car) შესრულდება, Observer-ი ავტომატურად წაშლის სურათს.
 
         $this->deleteCar->handle($car);
 
-        event(new DeleteCarEvent($car));
+        Event::dispatch(new DeleteCarEvent($car)); // Helper to Facade
 
         return $this->successRedirect('cars.index', 'მანქანა წარმატებით წაიშალა!');
     }
