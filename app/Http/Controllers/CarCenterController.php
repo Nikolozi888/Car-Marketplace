@@ -17,6 +17,7 @@ use App\Notifications\CenterCreated;
 use App\Notifications\CenterUpdated;
 use App\Repositories\CenterRepository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 
 class CarCenterController extends Controller
 {
@@ -47,7 +48,7 @@ class CarCenterController extends Controller
 
         // notification არის Observer-ში
 
-        event(new CenterCreatedEvent($center));
+        Event::dispatch(new CenterCreatedEvent($center));
 
         return $this->successRedirect('admin.centers.index', 'ცენტრი წარმატებით დაემატა!');
     }
@@ -73,7 +74,7 @@ class CarCenterController extends Controller
     {
         $this->centerRepository->deleteCenter($center);
 
-        event(new CenterDeleted($center));
+        Event::dispatch(new CenterDeleted($center));
 
         return $this->successRedirect('admin.centers.index', 'ცენტრი წარმატებით წაიშალა!');
     }

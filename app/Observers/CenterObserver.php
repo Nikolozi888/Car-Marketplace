@@ -7,6 +7,7 @@ use App\Models\Center;
 use App\Notifications\CenterCreated;
 use App\Notifications\CenterUpdated;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 
 class CenterObserver
 {
@@ -25,7 +26,7 @@ class CenterObserver
     {
         Auth::user()->notify(new CenterUpdated($center));
 
-        event(new CenterUpdatedEvent($center));
+        Event::dispatch(new CenterUpdatedEvent($center));
     }
 
     /**

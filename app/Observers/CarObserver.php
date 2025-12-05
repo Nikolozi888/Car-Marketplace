@@ -9,6 +9,7 @@ use App\Actions\UnlinkImageAction;
 use App\Mail\CarUpdatedMail;
 use App\Traits\ImageManagerTrait;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
 class CarObserver
@@ -36,7 +37,7 @@ class CarObserver
     {
         $this->sendNotifications->execute($car);
 
-        event(new CarCreatedEvent($car));
+        Event::dispatch(new CarCreatedEvent($car));
     }
 
     public function updated(): void
