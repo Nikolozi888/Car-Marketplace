@@ -8,6 +8,6 @@ class ImageManager extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        // code for image service call
+        return 'image.manager';
     }
 }

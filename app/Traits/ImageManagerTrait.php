@@ -2,14 +2,13 @@
 
 namespace App\Traits;
 
-use App\Actions\FileExists;
 use GuzzleHttp\Psr7\UploadedFile;
 use Illuminate\Http\UploadedFile as UserUploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 trait ImageManagerTrait
 {
-    public function __construct(public FileExists $fileExists)
+    public function __construct()
     {
         //
     }

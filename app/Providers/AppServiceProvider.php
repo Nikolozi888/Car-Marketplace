@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Services\AiService;
 use App\Services\AiServiceInterface;
 use App\Services\BlogPostGenerator;
+use App\Services\Car\ImageService;
 use App\Services\ClaudeAiService;
 use App\Services\ImageGenerator;
 use App\Services\OpenAiService;
@@ -31,6 +32,11 @@ class AppServiceProvider extends ServiceProvider
                     ->give(function(){
                         return new OpenAiService(new Client(), "020202002");
                     });
+
+        $this->app->bind('image.manager', function () {
+                return new ImageService();
+            });
+
     }
 
     /**

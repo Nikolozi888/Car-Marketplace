@@ -9,6 +9,7 @@ use App\Contracts\Repositories\CarRepositoryInterface;
 use App\DTOs\CarDTO;
 use App\Events\Car\CarUpdated;
 use App\Events\Car\DeleteCarEvent;
+use App\Facades\ImageManager;
 use App\Http\Requests\CarAddRequest;
 use App\Http\Requests\CarUpdateRequest;
 use App\Models\Car;
@@ -55,8 +56,8 @@ class CarController extends Controller
 
         $car = $this->carRepository->createCar($carDto->toArray());
 
-        // სურათის ატვირთვა რჩება კონტროლერში (რადგან Request-ს ეხება)
-        $this->addImage->execute($request, $car);
+        // სურათის ატვირთვა რჩება კონტროლერში (რადგან Request-ს ეხება) Facade-ით
+        ImageManager::add($request, $car);
 
         // ნოტიფიკაცია წაიშალა აქედან -> გადავიდა Observer-ის "created"-ში
 
@@ -87,7 +88,7 @@ class CarController extends Controller
 
         $carDto = CarDTO::fromRequest($request);
 
-        $this->updateImage->execute($request, $car);
+        ImageManager::update($request, $car); // სურათის განახლება Facade-ით
 
         $this->updateCar->handle($car, $carDto->toArray());
 
