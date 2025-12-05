@@ -1,0 +1,13 @@
+<?php
+
+namespace App\Facades;
+
+use Illuminate\Support\Facades\Facade;
+
+class ImageManager extends Facade
+{
+    protected static function getFacadeAccessor()
+    {
+        // code for image service call
+    }
+}
