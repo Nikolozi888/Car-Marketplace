@@ -46,6 +46,12 @@ class EventServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        /*
+            parent საკვანძო სიტყვა არის ერთადერთი გზა, რომლითაც შეგიძლიათ მიმართოთ უშუალო მშობლის იმპლემენტაციას იმ მეთოდის, 
+            რომელიც შვილ კლასში გადაწერეთ (Overridden).
+
+            ანუ Service Provider-შიც არის boot ფუნქცია ოღონდ ამ კლასში არის overRidden-ი იმ ფუნქციის
+        */
         parent::boot();
     }
 }
