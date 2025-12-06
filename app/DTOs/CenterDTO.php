@@ -13,15 +13,20 @@ class CenterDTO
         public string $email,
     ){ }
 
+
+    /*
+        self: ნიშნავს ამჟამინდელ კლასს, სადაც ეს სიტყვა წერია
+        ანუ ჩვენ რო დავწეროთ return CarDTO იგივეა რაც return new self
+    */
     /*
         static სიტყვა fromRequest-ს საშუალებას აძლევს, რომ გამოიძახოთ ფუნქცია ობიექტის შექმნის გარეშე
         თუ static-ს არ დავწერდით მოგვიწევდა ჯერ ცარიელი ობიექტის შექმნა და მერე მნიშვნელობების მინიჭება
     */
-    public static function fromRequest(Request $request): self
+    public static function fromRequest(Request $request): self // აბრუნებს CenterDTO ობიექტს
     {        
         $data = $request->validated();
 
-        return new self(
+        return new self(        // იგივეა რაც return new CenterDTO()
             name: $data['center_name'],
             address: $data['address'],
             number: $data['number'],
