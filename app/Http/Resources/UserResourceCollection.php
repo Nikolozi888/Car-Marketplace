@@ -13,10 +13,13 @@ class UserResourceCollection extends ResourceCollection
     {
         return [
             'data' => $this->collection->map(function ($user) {
+                
+                $cars = $user->whenLoaded('cars');
+                
                 return [
                     'id' => $user->id,
                     'name' => $user->name,
-                    'cars' => CarResource::collection($user->whenLoaded('cars'))
+                    'cars' => (new CarResourceCollection($cars))->each->additional(['summary_view' => true]),
                 ];
             }),
         ];

@@ -15,6 +15,7 @@ use App\Actions\Center\UpdateCenterAction;
 use App\Actions\Center\DeleteCenterAction;
 
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\Api\CarController as ApiCarController;
 use App\Http\Controllers\CarCenterController;
 
 class ActionServiceProvider extends ServiceProvider
@@ -38,6 +39,17 @@ class ActionServiceProvider extends ServiceProvider
             ->give(DeleteCarAction::class);
 
 
+        $this->app->when(ApiCarController::class)
+            ->needs(CreateableInterface::class)
+            ->give(CreateCarAction::class);
+
+        $this->app->when(ApiCarController::class)
+            ->needs(UpdateableInterface::class)
+            ->give(UpdateCarAction::class);
+
+        $this->app->when(ApiCarController::class)
+            ->needs(DeleteableInterface::class)
+            ->give(DeleteCarAction::class);
 
 
 
