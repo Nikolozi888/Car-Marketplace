@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function user(Request $request)
     {
-        $user = User::first();
+        $user = User::find(2);
 
         return new UserResource($user);
         // return $user;
@@ -20,9 +20,14 @@ class UserController extends Controller
 
     public function users(Request $request)
     {
-        $users = User::all();
+        $users = User::with('cars')->paginate(3);
 
-        return new UserResourceCollection($users);
+        return (new UserResourceCollection($users->keyBy('id')))
+                                ->additional([
+                                    'meta' => [
+                                        'a' => 1
+                                    ]
+                                ]);
         // return $users;
     }
 }

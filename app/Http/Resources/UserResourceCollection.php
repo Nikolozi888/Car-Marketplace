@@ -7,11 +7,8 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class UserResourceCollection extends ResourceCollection
 {
-    /**
-     * Transform the resource collection into an array.
-     *
-     * @return array<int|string, mixed>
-     */
+    public static $wrap = "users";
+
     public function toArray(Request $request): array
     {
         return [
@@ -19,8 +16,18 @@ class UserResourceCollection extends ResourceCollection
                 return [
                     'id' => $user->id,
                     'name' => $user->name,
+                    'cars' => CarResource::collection($user->whenLoaded('cars'))
                 ];
             }),
+        ];
+    }
+
+    public function with(Request $request): array
+    {
+        return [
+            'meta' => [
+                'key' => 'value'
+            ]
         ];
     }
 }
