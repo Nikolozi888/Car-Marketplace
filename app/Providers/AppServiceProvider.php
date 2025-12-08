@@ -47,13 +47,14 @@ class AppServiceProvider extends ServiceProvider
 
 
         /*
-            აქ არ გვჭირდება რადგან მსუბუქია, ჩვეულებრივ helper-ად გამოიყენება
+            instance() არის singleton-პატერნის პირდაპირი გამოხატვა, მაგრამ შენ ქმნი ობიექტს და container-ში პირდაპირ ინახავ.
+            ანუ ცვლადში შენახული ობიექტის გამოყენება არის instance
         */
-        $this->app->singleton(ImageService::class, function () {
-            return new ImageService();
-        });
+        $imageService = new ImageService();
 
+        $this->app->instance(ImageService::class, $imageService);
         $this->app->alias(ImageService::class, 'image.manager');
+
     }
 
     /**
