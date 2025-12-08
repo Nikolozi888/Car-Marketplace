@@ -25,7 +25,15 @@ class ActionServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        /*
+            bind (ან give) გამოიყენება აქ იმიტომ, 
+            რომ ჩვენ გვინდა თითო controller request-ზე ახალი, clean Action object შექმნას, 
+            რომელიც არ ინახავს state-ს.
 
+            ეს action-ები მსუბუქია და ახალ შექმნისას დიდი დატვირთვა არ ექნება
+        */
+
+        
         $this->app->when(CarController::class)
             ->needs(CreateableInterface::class)
             ->give(CreateCarAction::class);

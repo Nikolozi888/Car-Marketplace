@@ -17,6 +17,10 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        /*
+            აქ ვიყენებთ bind-ს, 
+            რადგან Repositories მსუბუქია და ყოველ გამოძახებაზე ახალი ობიექტის შექმნა უსაფრთხო და ეფექტურია, 
+        */
         $this->app->bind(CarRepositoryInterface::class, CarRepository::class);
         $this->app->bind(CenterRepositoryInterface::class, CenterRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);

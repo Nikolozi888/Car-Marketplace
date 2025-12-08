@@ -20,6 +20,10 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 
 class EventServiceProvider extends ServiceProvider
 {
+    /*
+        აქ არანირი binding არ გვაქვს,
+        მხოლოდ listener-ები რომელსაც binding არ სჭირდება
+    */
     protected $listen = [
         CarUpdated::class => [
             LogCarUpdate::class,
