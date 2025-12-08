@@ -14,7 +14,10 @@ class PaymentServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(PaymentInterface::class, PayPalPayment::class);
+        /*
+            ყველგან გვჭირდება ერთი და იგივე PayPalPayment
+        */
+        $this->app->singleton(PaymentInterface::class, PayPalPayment::class);
     }
 
     /**

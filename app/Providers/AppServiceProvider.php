@@ -22,18 +22,34 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->when(ImageGenerator::class)
-                    ->needs(AiServiceInterface::class)
-                    ->give(function(){
-                        return new ClaudeAiService(new Client(), "020202002");
-                    });
-        $this->app->when(BlogPostGenerator::class)
-                    ->needs(AiServiceInterface::class)
-                    ->give(function(){
-                        return new OpenAiService(new Client(), "020202002");
-                    });
+        /*
+            აქ ვიყენებთ contextual binding-ს (when), რათა სხვადასხვა კლასს
+            სხვადასხვა AiService მივაწოდოთ.
 
-        $this->app->bind(ImageService::class, function () {
+            რადგან ქვემოთ ეს სერვისები singleton-ად გვაქვს რეგისტრირებული,
+            give(ClaudeAiService::class) ავტომატურად resolve-დება singleton-იდან.
+        */
+        $this->app->when(ImageGenerator::class)
+            ->needs(AiServiceInterface::class)
+            ->give(ClaudeAiService::class);
+            
+        $this->app->when(BlogPostGenerator::class)
+            ->needs(AiServiceInterface::class)
+            ->give(OpenAiService::class);
+            
+
+        /*
+            აქ უკვე ვუთითებ მნიშვნელობებს singleton-ით, 
+            singleton-ით იმიტომ რომ სადაც გამოვიყენებთ ამ სერვისებს ყველგან ერთნაირი დაგვჭირდება, იგივე ApiKey-ით და იგივე Client-ით
+        */
+        $this->app->singleton(ClaudeAiService::class, fn () => new ClaudeAiService(new Client(), "020202002"));
+        $this->app->singleton(OpenAiService::class, fn () => new OpenAiService(new Client(), "020202002"));
+
+
+        /*
+            აქ არ გვჭირდება რადგან მსუბუქია, ჩვეულებრივ helper-ად გამოიყენება
+        */
+        $this->app->singleton(ImageService::class, function () {
             return new ImageService();
         });
 
