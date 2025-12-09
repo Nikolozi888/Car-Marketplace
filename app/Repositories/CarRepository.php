@@ -10,7 +10,7 @@ class CarRepository implements CarRepositoryInterface
     public function getPaginatedCars(?string $search = null, int $perPage = 15)
     {
         return Car::search($search)
-            ->with('detail')
+            ->with('detail')->latest()
             ->paginate($perPage);
     }
 

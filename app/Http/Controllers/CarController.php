@@ -41,14 +41,14 @@ class CarController extends Controller
 
     public function create(): View
     {
-        $this->authorize('create'); // შეგვიძლია Facade გამოვიყენოთ და დავწეროთ Gate::authorize('create');
+        $this->authorize('create', Car::class); // შეგვიძლია Facade გამოვიყენოთ და დავწეროთ Gate::authorize('create');
         
         return view('cars.create');
     }
 
     public function store(CarAddRequest $request): RedirectResponse
     {
-        $this->authorize('create'); // შეგვიძლია Facade გამოვიყენოთ და დავწეროთ Gate::authorize('create');
+        $this->authorize('create', Car::class); // შეგვიძლია Facade გამოვიყენოთ და დავწეროთ Gate::authorize('create');
 
         // User ID-ს მინიჭება Trait-ში გადავიდა,
         // ამიტომ აქ შეგვიძლია პირდაპირ request გადავცეთ.

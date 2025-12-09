@@ -1,5 +1,5 @@
 @extends('layout')
-
+{{-- @dd(asset('storage/' . $car->images->first()->path)) --}}
 @section('content')
     <div class="bg-white rounded-lg shadow-md overflow-hidden">
             <img 

@@ -13,9 +13,9 @@ trait ImageManagerTrait
         //
     }
 
-    public function uploadImage(UserUploadedFile $image, string $disk = 'public', string $path = 'photos'): ?string
+    public function uploadImage($image, string $disk = 'public', string $path = 'photos'): ?string
     {
-        $filename = time() . '_' . $image->getClientOriginalName();
+        $filename = time() . '_' . str_replace(' ', '_', $image->getClientOriginalName());
 
         $filePath = $image->storeAs($path, $filename, $disk);
                                 //  photos 4BVgTu.jpg public
