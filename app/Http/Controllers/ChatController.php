@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
-    public function index()
-    {
-        return view('chat');
-    }
+    // public function index()
+    // {
+    //     return view('chat');
+    // }
 
     public function sendMessage(Request $request)
     {

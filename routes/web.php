@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Route::get('/email/send', [EmailsController::class, 'welcomeEmail']);
 
-Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+// Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
 Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
 
 Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
