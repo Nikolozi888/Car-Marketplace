@@ -5,6 +5,7 @@ use App\Http\Controllers\CarCenterController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\EmailsController;
 use App\Http\Controllers\GenerateImageController;
 use App\Http\Controllers\PaymentController;
@@ -15,6 +16,9 @@ Route::get('/', function () {
 });
 
 Route::get('/email/send', [EmailsController::class, 'welcomeEmail']);
+
+Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
 
 Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
 Route::middleware('auth')->group(function () {
