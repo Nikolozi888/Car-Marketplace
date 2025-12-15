@@ -31,7 +31,7 @@
                     <div class="p-4">
                         <h2 class="text-2xl font-bold text-blue-700">{{ $car->make }} {{ $car->model }}</h2>
                         <p class="text-gray-600 text-lg mb-2">{{ $car->year }}</p>
-                        <p class="text-2xl font-extrabold text-green-600 mb-4">${{ number_format($car->price, 2) }}</p>
+                        <p class="text-2xl font-extrabold text-green-600 mb-4">{{ format_price($car->price) }}</p>
                         <a href="{{ route('cars.show', $car) }}" class="inline-block w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
                             სრულად ნახვა
                         </a>
