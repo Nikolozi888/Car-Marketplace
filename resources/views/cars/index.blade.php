@@ -27,9 +27,9 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach ($cars as $car)
                 <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                    <img src="{{ count($car->images) > 0 ? asset('storage/' . $car->images->first()->path) : 'https://via.placeholder.com/1200x600.png?text=No+Image' }}" alt="{{ $car->make }} {{ $car->model }}" class="w-full h-56 object-cover">
+                    <img src="{{ car_image($car) }}" alt="{{ car_title($car) }}" class="w-full h-56 object-cover">
                     <div class="p-4">
-                        <h2 class="text-2xl font-bold text-blue-700">{{ $car->make }} {{ $car->model }}</h2>
+                        <h2 class="text-2xl font-bold text-blue-700">{{ car_title($car) }}</h2>
                         <p class="text-gray-600 text-lg mb-2">{{ $car->year }}</p>
                         <p class="text-2xl font-extrabold text-green-600 mb-4">{{ format_price($car->price) }}</p>
                         <a href="{{ route('cars.show', $car) }}" class="inline-block w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
@@ -40,7 +40,7 @@
             @endforeach
         </div>
 
-        {{ $cars->appends(request()->query())->links() }}
+        <div class="mt-5">{{ pagination_links($cars) }}</div>
         
     @endif
 @endsection

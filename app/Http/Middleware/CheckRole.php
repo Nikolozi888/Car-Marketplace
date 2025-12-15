@@ -16,7 +16,7 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, $role): Response
     {
-        if (!Auth::user()) {
+        if (!current_user()) {
             return redirect()->route('login');
         }
 

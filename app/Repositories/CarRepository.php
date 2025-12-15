@@ -7,7 +7,7 @@ use App\Models\Car;
 
 class CarRepository implements CarRepositoryInterface
 {
-    public function getPaginatedCars(?string $search = null, int $perPage = 15)
+    public function getPaginatedCars(?string $search = null, int $perPage = 3)
     {
         return Car::search($search)
             ->with('detail')->latest()

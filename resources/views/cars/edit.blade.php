@@ -19,9 +19,8 @@
                     <option value="">აირჩიეთ ცენტრი</option>
 
                     @foreach (App\Models\Center::all() as $center)
-                        <option value="{{ $center->id }}"
-                            {{ $car->center->id == $center->id ? 'selected' : '' }}>
-                            {{ $center->name }}
+                        <option value="{{ $center->id }}" {{ get_old_selected_center($car, $center) }}>
+                            {{ $center->center_name }}
                         </option>
                     @endforeach
                 </select>
@@ -52,8 +51,8 @@
             <label for="image" class="block text-sm font-medium text-gray-700">სურათი</label>
             <input type="file" name="image" id="image" accept="image/*"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-            @if($car->image)
-                <img src="{{ asset('storage/' . $car->image) }}" alt="{{ $car->make }} {{ $car->model }}" class="mt-2 w-64 h-auto object-cover" style="max-height: 300px;">
+            @if($car->images->count())
+                <img src="{{ car_image($car) }}" alt="{{ car_title($car) }}" class="mt-2 w-64 h-auto object-cover" style="max-height: 300px;">
             @endif
         </div>
 

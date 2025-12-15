@@ -42,7 +42,7 @@ class CarObserver
 
     public function updated(): void
     {
-        $user = Auth::user();
+        $user = current_user();
         Mail::to($user->email)->send(new CarUpdatedMail($user));
     }
 

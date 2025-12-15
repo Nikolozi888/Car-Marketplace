@@ -18,9 +18,9 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white/80 hover:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                     </svg>
-                    @if (Auth::user()->unreadNotifications->count() > 0)
+                    @if (is_notifications())
                         <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
-                            {{ Auth::user()->unreadNotifications->count() }}
+                            {{ count_notifications() }}
                         </span>
                     @endif
                 </button>
@@ -30,7 +30,7 @@
                         <p class="text-sm font-bold text-gray-800">შეტყობინებები</p>
                     </div>
                     <div class="max-h-80 overflow-y-auto">
-                        @foreach (Auth::user()->notifications as $notification)
+                        @foreach (current_user()->notifications as $notification)
                             <a href="#"
                             class="block px-4 py-3 hover:bg-blue-50 transition duration-150 border-b border-gray-100 {{ $notification->read_at ? '' : 'bg-blue-50 font-semibold' }}">
                                 @if(isset($notification->data['message']))
@@ -84,16 +84,7 @@
                 </div>
             @endif
 
-            @if ($errors->any())
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-                    <strong>შეცდომა!</strong>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            <x-error-component className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" />
 
             @yield('content')
         </main>

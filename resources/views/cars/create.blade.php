@@ -18,8 +18,7 @@
                     <option value="">აირჩიეთ ცენტრი</option>
 
                     @foreach (App\Models\Center::all() as $center)
-                        <option value="{{ $center->id }}"
-                            {{ old('center_id') == $center->id ? 'selected' : '' }}>
+                        <option value="{{ $center->id }}">
                             {{ $center->center_name }}
                         </option>
                     @endforeach

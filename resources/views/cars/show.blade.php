@@ -3,16 +3,16 @@
 @section('content')
     <div class="bg-white rounded-lg shadow-md overflow-hidden">
             <img 
-                src="{{ count($car->images) > 0 ? asset('storage/' . $car->images->first()->path) : 'https://via.placeholder.com/1200x600.png?text=No+Image' }}" 
-                alt="{{ $car->make }} {{ $car->model }}" 
+                src="{{ car_image($car) }}"
+                alt="{{ car_title($car) }}" 
                 class="w-full h-auto object-cover" 
                 style="max-height: 500px;"
             >
         
         <div class="p-6">
-            <h1 class="text-4xl font-bold text-blue-800 mb-2">{{ $car->make }} {{ $car->model }}</h1>
+            <h1 class="text-4xl font-bold text-blue-800 mb-2">{{ car_title($car) }}</h1>
             <p class="text-gray-700 text-2xl mb-4">{{ $car->year }}</p>
-            <p class="text-4xl font-extrabold text-green-600 mb-6">${{ number_format($car->price, 2) }}</p>
+            <p class="text-4xl font-extrabold text-green-600 mb-6">{{ format_price($car->price) }}</p>
             <p class="text-xl font-semibold text-blue-500 mb-6">Center: {{$car->center->center_name }}</p>
             
             <h3 class="text-xl font-semibold mb-2">აღწერა:</h3>

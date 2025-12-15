@@ -16,7 +16,7 @@ class CenterObserver
      */
     public function created(Center $center): void
     {
-        Auth::user()->notify(new CenterCreated($center));
+        current_user()->notify(new CenterCreated($center));
     }
 
     /**
@@ -24,7 +24,7 @@ class CenterObserver
      */
     public function updated(Center $center): void
     {
-        Auth::user()->notify(new CenterUpdated($center));
+        current_user()->notify(new CenterUpdated($center));
 
         Event::dispatch(new CenterUpdatedEvent($center));
     }

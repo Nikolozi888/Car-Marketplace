@@ -25,7 +25,7 @@
                 @forelse ($cars as $car)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <img src="{{ $car->image_url ?: 'https://via.placeholder.com/100x70.png?text=No+Image' }}" alt="Car image" class="w-24 h-16 object-cover rounded">
+                            <img src="{{ car_image($car) }}" alt="{{ car_title($car) }}" class="w-24 h-16 object-cover rounded">
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm font-medium text-gray-900">{{ $car->make }}</div>
@@ -37,7 +37,7 @@
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-green-600">
-                            ${{ number_format($car->price) }}
+                            {{ format_price($car->price) }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <a href="{{ route('cars.show', $car) }}" class="text-gray-500 hover:text-gray-700 mr-2" title="ნახვა">👁️</a>

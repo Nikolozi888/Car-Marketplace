@@ -16,7 +16,7 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = Auth::user();
+        $user = current_user();
 
         if (!$user) {
             return redirect()->route('login');
