@@ -9,3 +9,18 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.notification-dropdown-menu {
+    display: none;
+}
+
+.notification-dropdown:hover .notification-dropdown-menu {
+    display: block;
+}
+
+/* Alpine.js-ის დამალვა სანამ ინიციალიზდება */
+[x-cloak] { display: none !important; }

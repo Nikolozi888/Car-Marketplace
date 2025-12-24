@@ -5,26 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}"> <title>Car Project</title>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script> 
-
-    <style>
-        .dropdown:hover .dropdown-menu {
-            display: block;
-        }
-
-        .notification-dropdown-menu {
-            display: none;
-        }
-
-        .notification-dropdown:hover .notification-dropdown-menu {
-            display: block;
-        }
-        
-        /* Alpine.js-ის დამალვა სანამ ინიციალიზდება */
-        [x-cloak] { display: none !important; }
-    </style>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="bg-gray-50 text-gray-800">
@@ -142,8 +126,8 @@
     </main>
 
     <div x-data="floatingChat()" class="fixed bottom-6 right-6 z-50">
-        
-        <button 
+
+        <button
             @click="isOpen = !isOpen; if (isOpen) { scrollToBottom() }"
             class="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-2xl transition duration-300 transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50"
         >
@@ -152,8 +136,8 @@
             </svg>
         </button>
 
-        <div 
-            x-show="isOpen" 
+        <div
+            x-show="isOpen"
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0 translate-y-4 scale-95"
             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
@@ -164,7 +148,7 @@
             x-cloak
             class="absolute bottom-full right-0 mb-4 w-80 h-96 bg-white rounded-xl shadow-2xl flex flex-col overflow-hidden border border-gray-200"
         >
-            
+
             <div class="bg-blue-600 p-3 text-white flex justify-between items-center shadow-md">
                 <h2 class="text-lg font-semibold">CarMarket AI Chat</h2>
                 <button @click="isOpen = false" class="text-white hover:text-blue-200">
@@ -178,8 +162,8 @@
 
                 <template x-for="(msg, index) in messages" :key="index">
                     <div :class="msg.role === 'user' ? 'flex justify-end' : 'flex justify-start'">
-                        <div :class="msg.role === 'user' 
-                            ? 'bg-blue-600 text-white rounded-lg rounded-br-none' 
+                        <div :class="msg.role === 'user'
+                            ? 'bg-blue-600 text-white rounded-lg rounded-br-none'
                             : 'bg-white border border-gray-200 text-gray-800 rounded-lg rounded-tl-none'"
                              class="p-2 text-sm max-w-[80%] shadow-sm">
                             <p x-text="msg.content"></p>
@@ -198,13 +182,13 @@
 
             <div class="p-3 bg-white border-t border-gray-200">
                 <form @submit.prevent="sendMessage" class="flex gap-2">
-                    <input type="text" 
-                           x-model="userInput" 
+                    <input type="text"
+                           x-model="userInput"
                            :disabled="isLoading"
-                           placeholder="შეტყობინება..." 
+                           placeholder="შეტყობინება..."
                            class="flex-1 border border-gray-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:border-blue-500 transition disabled:opacity-50">
-                    
-                    <button type="submit" 
+
+                    <button type="submit"
                             :disabled="isLoading || !userInput.trim()"
                             class="bg-blue-600 hover:bg-blue-700 text-white rounded-lg p-2 w-8 h-8 flex items-center justify-center transition disabled:opacity-50 disabled:cursor-not-allowed">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -215,7 +199,7 @@
             </div>
         </div>
     </div>
-    
+
     <script>
         function floatingChat() {
             return {
@@ -223,17 +207,17 @@
                 userInput: '',
                 isLoading: false,
                 // შეტყობინების ისტორია
-                messages: [{ role: 'assistant', content: 'გამარჯობა! მე CarMarket-ის ასისტენტი ვარ. შემიძლია დაგეხმაროთ მანქანების პოვნაში. 🚗' }], 
-                
+                messages: [{ role: 'assistant', content: 'გამარჯობა! მე CarMarket-ის ასისტენტი ვარ. შემიძლია დაგეხმაროთ მანქანების პოვნაში. 🚗' }],
+
                 async sendMessage() {
                     if (this.userInput.trim() === '') return;
 
                     const text = this.userInput;
                     this.userInput = '';
-                    
+
                     this.messages.push({ role: 'user', content: text });
                     this.scrollToBottom();
-                    
+
                     this.isLoading = true;
 
                     try {
@@ -241,20 +225,20 @@
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') 
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                             },
-                            body: JSON.stringify({ 
+                            body: JSON.stringify({
                                 message: text,
-                                history: this.messages 
+                                history: this.messages
                             })
                         });
 
                         if (!response.ok) throw new Error('API request failed');
 
                         const data = await response.json();
-                        
+
                         this.messages.push({ role: 'assistant', content: data.reply });
-                        
+
                     } catch (error) {
                         console.error('Chat Error:', error);
                         this.messages.push({ role: 'assistant', content: 'დაფიქსირდა შეცდომა. სცადეთ მოგვიანებით.' });
@@ -265,7 +249,7 @@
                 },
 
                 scrollToBottom() {
-                    this.$nextTick(() => { 
+                    this.$nextTick(() => {
                         const chatBox = document.getElementById('floating-chat-box');
                         if (chatBox) {
                             chatBox.scrollTop = chatBox.scrollHeight;
@@ -275,10 +259,10 @@
             }
         }
     </script>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Note: since your notification dropdown uses :hover classes, this JS may not be strictly necessary 
+            // Note: since your notification dropdown uses :hover classes, this JS may not be strictly necessary
             // but I've kept it here for robustness if you decide to change the CSS logic.
             const toggleButton = document.getElementById('notification-toggle');
             const menu = document.getElementById('notification-menu');
