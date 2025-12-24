@@ -6,6 +6,10 @@ use App\Models\Car;
 
 class AdminController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:superAdmin');
+    }
 
     public function dashboard()
     {

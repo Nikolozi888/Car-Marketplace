@@ -37,7 +37,11 @@ class CarPolicy
      */
     public function update(User $user, Car $car): bool
     {
-        return $car->user_id == $user->id;
+        if($car->user_id == $user->id || $user->hasPermissionTo('edit car'))
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -45,7 +49,11 @@ class CarPolicy
      */
     public function delete(User $user, Car $car): bool
     {
-        return $car->user_id == $user->id;
+        if($car->user_id == $user->id || $user->hasPermissionTo('delete car'))
+        {
+            return true;
+        }
+        return false;
     }
 
     /**

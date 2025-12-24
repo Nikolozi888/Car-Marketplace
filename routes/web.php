@@ -32,8 +32,8 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
-    
+Route::prefix('admin')->name('admin.')->middleware(['role:admin|superAdmin'])->group(function () {
+
     Route::resource('centers', CarCenterController::class)->names('centers');
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/cars', [AdminController::class, 'carsIndex'])->name('cars.index');
