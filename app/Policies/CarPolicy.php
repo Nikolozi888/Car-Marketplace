@@ -37,7 +37,7 @@ class CarPolicy
      */
     public function update(User $user, Car $car): bool
     {
-        if($car->user_id == $user->id || $user->hasPermissionTo('edit car'))
+        if($car->user_id == $user->id || $user->hasAnyRole(['admin', 'superAdmin']))
         {
             return true;
         }
