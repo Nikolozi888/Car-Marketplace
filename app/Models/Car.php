@@ -10,6 +10,8 @@ use App\Traits\UserOwnedItem;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 #[ObservedBy([CarObserver::class])]
 class Car extends Model
@@ -64,12 +66,12 @@ class Car extends Model
         return $this->belongsToMany(Feature::class, 'car_feature');
     }
 
-    public function images()
+    public function images(): MorphMany
     {
         return $this->morphMany(Image::class, 'imageable');
     }
 
-    public function center()
+    public function center(): belongsTo
     {
         return $this->belongsTo(Center::class);
     }

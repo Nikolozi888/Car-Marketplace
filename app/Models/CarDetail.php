@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CarDetail extends Model
 {
-    public function car()
+    public function car(): belongsTo
     {
         return $this->belongsTo(Car::class, 'car_id');
     }
