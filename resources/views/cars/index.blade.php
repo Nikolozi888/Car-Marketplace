@@ -3,22 +3,48 @@
 @section('content')
     <form action="{{ route('cars.index') }}" method="GET" class="mb-6">
         <div class="flex items-center max-w-lg mx-auto bg-white rounded-full shadow-md">
-            <input 
-                type="text" 
-                name="search" 
+            <input
+                type="text"
+                name="search"
                 value="{{ request('search') }}"
-                placeholder="ძიება მარკის ან მოდელის მიხედვით..." 
+                placeholder="ძიება მარკის ან მოდელის მიხედვით..."
                 class="w-full px-6 py-3 rounded-full border-none focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-            <button 
-                type="submit" 
+            <button
+                type="submit"
                 class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full -ml-12"
             >
                 ძიება
             </button>
         </div>
     </form>
-    
+
+    <div class="m-4">
+        <form action="{{ route('cars.index') }}" method="get" id="sortForm">
+            <select
+                name="sort"
+                id="sortSelect"
+                class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+                <option value="" disabled {{ request('sort') ? '' : 'selected' }}>
+                    Sort by
+                </option>
+                <option value="name-asc" {{ request('sort') === 'name-asc' ? 'selected' : '' }}>
+                    Name (A–Z)
+                </option>
+                <option value="name-desc" {{ request('sort') === 'name-desc' ? 'selected' : '' }}>
+                    Name (Z–A)
+                </option>
+                <option value="price-asc" {{ request('sort') === 'price-asc' ? 'selected' : '' }}>
+                    Price: Low to High
+                </option>
+                <option value="price-desc" {{ request('sort') === 'price-desc' ? 'selected' : '' }}>
+                    Price: High to Low
+                </option>
+            </select>
+        </form>
+    </div>
+
     <h1 class="text-3xl font-bold mb-6">მანქანების სია</h1>
 
     @if($cars->isEmpty())
@@ -41,6 +67,20 @@
         </div>
 
         <div class="mt-5">{{ pagination_links($cars) }}</div>
-        
+
     @endif
 @endsection
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const select = document.getElementById("sortSelect");
+        const form = document.getElementById("sortForm");
+
+        select.addEventListener("change", function () {
+            if (this.value) {
+                form.submit();
+            }
+        });
+    });
+</script>
